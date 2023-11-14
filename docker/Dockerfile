@@ -9,16 +9,16 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-FROM base_downloader AS builder_dependencies
+FROM base_downloader AS pdm_downloader
 
 ARG PROJECT_DIR
 ARG PDM_VERSION=2.10.0
 COPY --from=base_downloader /usr/bin/curl /usr/bin/curl
 RUN curl -sSL https://pdm.fming.dev/install-pdm.py | python - --version="${PDM_VERSION}"
 
-FROM builder_dependencies as pdm_builder
+FROM pdm_downloader as pdm_builder
 # copy files
-COPY --from=builder_dependencies /root/.local/bin/pdm /usr/bin/pdm
+COPY --from=pdm_downloader /root/.local/bin/pdm /usr/bin/pdm
 COPY pyproject.toml pdm.lock ${PROJECT_DIR}/
 
 # install dependencies and project into the local packages directory
