@@ -1,0 +1,19 @@
+[project]
+name = ""
+version = "0.1.0"
+description = "Devops ITMO Lab 1 - Dockerfile and Kubernetes"
+authors = [
+    {name = "toofnf", email = "kaneva.tmr@gmail.com"},
+]
+dependencies = [
+    "fastapi>=0.104.1",
+    "uvicorn==0.23.0",
+]
+requires-python = ">=3.10,<3.11"
+license = {text = "MIT"}
+
+[tool.pdm.dev-dependencies]
+test = [
+    "pytest>=7.4.3",
+    "httpx>=0.25.1",
+]
