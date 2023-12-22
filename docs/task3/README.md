@@ -91,7 +91,7 @@ jobs:
 
 Посмотрим в dockerhub - видно, что новый image с тэгом `v0.0.4` добавился в dockerhub:
 
-![Image 5](./images/images.jpg)
+![Image 5](./images/img_full.png)
 
 Теперь переведём dockerhub репозиторий в публичный репозиторий, скачаем наш image и используем его при запуске контейнера:
 
