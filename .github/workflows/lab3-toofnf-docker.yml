@@ -4,13 +4,14 @@ run-name: Pushing images to docker by @${{ github.actor }}
 on:
   push:
     branches:
-      - main
+      - 'main'
     tags:
-      - v*
+      - 'v*'
   workflow_dispatch:
 
 jobs:
   docker-image-build-push:
+    if: startsWith(github.ref, 'refs/tags/')
     name: Docker image build and push operations
     runs-on: ubuntu-latest
     steps:
@@ -31,6 +32,6 @@ jobs:
     - name: build-push-docker
       uses: docker/build-push-action@v5
       with:
-        dockerfile: ./docker/Dockerfile
+        file: ./docker/Dockerfile
         push: true
         tags: toofnf/lab3-devops:$RELEASE_VERSION
