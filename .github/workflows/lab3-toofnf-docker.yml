@@ -34,4 +34,4 @@ jobs:
       with:
         file: ./docker/Dockerfile
         push: true
-        tags: toofnf/lab3-devops:$RELEASE_VERSION
+        tags: ${{ secrets.DOCKER_USERNAME }}/lab3-devops:${{ env.RELEASE_VERSION }}
