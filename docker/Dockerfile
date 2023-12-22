@@ -36,6 +36,6 @@ COPY --from=pdm_builder ${PROJECT_DIR}/__pypackages__/${PYTHON_BASE_VERSION}/lib
 
 # retrieve executables
 COPY --from=pdm_builder ${PROJECT_DIR}/__pypackages__/${PYTHON_BASE_VERSION}/bin/* /bin/
-COPY src/ src/
+COPY src/main.py src/main.py
 # set command/entrypoint, adapt to fit your needs
 CMD ["python", "-m", "uvicorn", "src.main:app", "--port", "9000", "--host", "0.0.0.0"]
