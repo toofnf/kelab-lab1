@@ -20,7 +20,7 @@
 
 ## Additional Labs(*)
 
-### Lab 1* - Web + Database
+### Lab 1* - Web + Database ⌛
 
 Описание решения дополнительной лабораторной 1 со звёздочкой находится по следующей [ссылке](./docs/additional/task1/README.md)
 
