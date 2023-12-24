@@ -1,0 +1,41 @@
+version: "3.9"
+services:
+  app-web-app:
+    build:
+      dockerfile: ./docker/Dockerfile_app
+      args:
+        - PYTHON_BASE_VERSION=3.10
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+    depends_on:
+      db:
+        condition: service_healthy
+    pid: "host"
+    privileged: true
+    container_name: my-web-app
+    security_opt:
+      - no-new-privileges:true
+    restart: always
+    ports:
+      - "9001:9001"
+
+  db:
+    image: postgres:13.4-alpine3.14
+    container_name: postgres-production-db
+    volumes:
+      - "ps:/var/lib/postgresql/data"
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 1s
+      timeout: 1s
+      retries: 30
+    ports:
+      - "9002:5432"
+
+volumes:
+  ps:
