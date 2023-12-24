@@ -713,7 +713,26 @@ scrapeConfigFiles: []
 serverFiles:
   ## Alerts configuration
   ## Ref: https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/
-  alerting_rules.yml: {}
+  alerting_rules.yml:
+    groups:
+      - name: "Instances"
+        rules:
+          - alert: PrometheusTargetsDownAlerter
+            expr: up == 0
+            for: 20s
+            labels:
+              severity: warning
+            annotations:
+              summary: "Prometheus target {{ $labels.instance }} down"
+              description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 20s"
+          - alert: AmountOfErrorsIsBigger20Percents
+            expr: ((1 - (sum(http_requests_total{status='2xx'}) by (handler)) / (sum(http_requests_total) by (handler))) * 100) > 20
+            for: 5m
+            labels:
+              severity: page
+            annotations:
+              summary: "Количество ошибок на ендпоинте {{ $labels.handler }} превышает 20 процентов"
+              description: "amount_of_500_errors_by_endpoint > 20%"
   # groups:
   #   - name: Instances
   #     rules:
@@ -735,6 +754,26 @@ serverFiles:
   rules: {}
 
   prometheus.yml:
+    alerting:
+      alertmanagers:
+        - kubernetes_sd_configs:
+            - role: pod
+          tls_config:
+            ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+          relabel_configs:
+            - source_labels: [ __meta_kubernetes_namespace ]
+              regex: default
+              action: keep
+            - source_labels: [ __meta_kubernetes_pod_label_app_kubernetes_io_instance ]
+              regex: prometheus-alertmanager
+              action: keep
+            - source_labels: [ __meta_kubernetes_pod_label_app_kubernetes_io_name ]
+              regex: alertmanager
+              action: keep
+            - source_labels: [ __meta_kubernetes_pod_container_port_number ]
+              regex: "9093"
+              action: keep
     rule_files:
       - /etc/config/recording_rules.yml
       - /etc/config/alerting_rules.yml
@@ -1208,7 +1247,7 @@ extraManifests: []
 alertmanager:
   ## If false, alertmanager will not be installed
   ##
-  enabled: true
+  enabled: false
 
   persistence:
     size: 2Gi
