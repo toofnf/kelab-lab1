@@ -9,6 +9,12 @@ dependencies = [
     "fastapi>=0.104.1",
     "uvicorn==0.23.0",
     "prometheus-fastapi-instrumentator>=6.1.0",
+    "psycopg2-binary>=2.9.9",
+    "alembic>=1.13.1",
+    "sqlalchemy>=2.0.23",
+    "pydantic>=2.5.3",
+    "loguru>=0.7.2",
+    "pydantic-settings>=2.1.0",
 ]
 requires-python = ">=3.10,<3.11"
 license = {text = "MIT"}
