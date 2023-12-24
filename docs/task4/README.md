@@ -1,4 +1,4 @@
-# Lab 4 - K8S Deployment Monitoring - Prometheus, ELK, Grafana
+# Lab 4 - K8S Deployment Monitoring - Prometheus, Grafana
 
 ## Описание задания
 

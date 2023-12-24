@@ -1,4 +1,4 @@
-# Lab 4* - Custom Alerting
+# Lab 4* - AlertManager and Alert Rules
 
 ## Описание задания
 
